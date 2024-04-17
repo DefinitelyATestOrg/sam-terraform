@@ -26,6 +26,7 @@ type SamProvider struct {
 
 // SamProviderModel describes the provider data model.
 type SamProviderModel struct {
+	BaseURL   types.String `tfsdk:"base_url" json:"base_url"`
 	AuthToken types.String `tfsdk:"auth_token" json:"auth_token"`
 }
 
@@ -37,6 +38,10 @@ func (p *SamProvider) Metadata(ctx context.Context, req provider.MetadataRequest
 func (p SamProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
+			"base_url": schema.StringAttribute{
+				Description: "Set the base url that the provider connects to. This can be used for testing in other environments.",
+				Optional:    true,
+			},
 			"auth_token": schema.StringAttribute{
 				Optional: true,
 			},
@@ -54,6 +59,9 @@ func (p *SamProvider) Configure(ctx context.Context, req provider.ConfigureReque
 
 	opts := []option.RequestOption{}
 
+	if !data.BaseURL.IsNull() {
+		opts = append(opts, option.WithBaseURL(data.BaseURL.ValueString()))
+	}
 	if !data.AuthToken.IsNull() {
 		opts = append(opts, option.WithAuthToken(data.AuthToken.ValueString()))
 	}
