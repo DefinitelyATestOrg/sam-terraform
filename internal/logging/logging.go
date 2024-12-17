@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/DefinitelyATestOrg/sam-node/option"
+	"github.com/DefinitelyATestOrg/sam-go/option"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
