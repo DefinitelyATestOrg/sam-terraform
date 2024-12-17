@@ -5,16 +5,16 @@ package internal
 import (
 	"context"
 
-	"github.com/DefinitelyATestOrg/sam-go"
-	"github.com/DefinitelyATestOrg/sam-go/option"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/stainless-sdks/sam-go"
+	"github.com/stainless-sdks/sam-go/option"
 )
 
-var _ provider.Provider = &SamProvider{}
+var _ provider.ProviderWithConfigValidators = (*SamProvider)(nil)
 
 // SamProvider defines the provider implementation.
 type SamProvider struct {
@@ -26,8 +26,8 @@ type SamProvider struct {
 
 // SamProviderModel describes the provider data model.
 type SamProviderModel struct {
-	BaseURL   types.String `tfsdk:"base_url" json:"base_url"`
-	AuthToken types.String `tfsdk:"auth_token" json:"auth_token"`
+	BaseURL types.String `tfsdk:"base_url" json:"base_url,optional"`
+	APIKey  types.String `tfsdk:"api_key" json:"api_key,required"`
 }
 
 func (p *SamProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
@@ -35,18 +35,22 @@ func (p *SamProvider) Metadata(ctx context.Context, req provider.MetadataRequest
 	resp.Version = p.version
 }
 
-func (p SamProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
-	resp.Schema = schema.Schema{
+func ProviderSchema(ctx context.Context) schema.Schema {
+	return schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"base_url": schema.StringAttribute{
 				Description: "Set the base url that the provider connects to. This can be used for testing in other environments.",
 				Optional:    true,
 			},
-			"auth_token": schema.StringAttribute{
-				Optional: true,
+			"api_key": schema.StringAttribute{
+				Required: true,
 			},
 		},
 	}
+}
+
+func (p *SamProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
+	resp.Schema = ProviderSchema(ctx)
 }
 
 func (p *SamProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
@@ -62,8 +66,8 @@ func (p *SamProvider) Configure(ctx context.Context, req provider.ConfigureReque
 	if !data.BaseURL.IsNull() {
 		opts = append(opts, option.WithBaseURL(data.BaseURL.ValueString()))
 	}
-	if !data.AuthToken.IsNull() {
-		opts = append(opts, option.WithAuthToken(data.AuthToken.ValueString()))
+	if !data.APIKey.IsNull() {
+		opts = append(opts, option.WithAPIKey(data.APIKey.ValueString()))
 	}
 
 	client := sam.NewClient(
@@ -72,6 +76,10 @@ func (p *SamProvider) Configure(ctx context.Context, req provider.ConfigureReque
 
 	resp.DataSourceData = client
 	resp.ResourceData = client
+}
+
+func (p *SamProvider) ConfigValidators(_ context.Context) []provider.ConfigValidator {
+	return []provider.ConfigValidator{}
 }
 
 func (p *SamProvider) Resources(ctx context.Context) []func() resource.Resource {
