@@ -2,23 +2,27 @@
 
 The Sam Terraform provider
 
-The [Sam Terraform provider](https://registry.terraform.io/providers/stainless-sdks/sam/latest/docs) provides convenient access to
+The [Sam Terraform provider](https://registry.terraform.io/providers/DefinitelyATestOrg/sam/latest/docs) provides convenient access to
 [the Sam REST API](https://docs.sam.com) from Terraform.
 
 It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Installation
 
+<!-- x-release-please-start-version -->
+
 ```
 terraform {
   required_providers {
     sam = {
-      source  = "stainless-sdks/sam"
+      source  = "DefinitelyATestOrg/sam"
       version = "~> 0.0.1-alpha.0"
     }
   }
 }
 ```
+
+<!-- x-release-please-end -->
 
 And initialize your project by running `terraform init`.
 
@@ -36,4 +40,4 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/sam-terraform/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/DefinitelyATestOrg/terraform-provider-sam/issues) with questions, bugs, or suggestions.

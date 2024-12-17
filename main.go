@@ -7,8 +7,8 @@ import (
 	"flag"
 	"log"
 
+	"github.com/DefinitelyATestOrg/terraform-provider-sam/internal"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	"github.com/stainless-sdks/sam-terraform/internal"
 )
 
 var (
@@ -22,7 +22,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/stainless-sdks/sam",
+		Address: "registry.terraform.io/DefinitelyATestOrg/sam",
 		Debug:   debug,
 	}
 

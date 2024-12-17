@@ -5,13 +5,13 @@ package internal
 import (
 	"context"
 
+	"github.com/DefinitelyATestOrg/sam-node"
+	"github.com/DefinitelyATestOrg/sam-node/option"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/stainless-sdks/sam-go"
-	"github.com/stainless-sdks/sam-go/option"
 )
 
 var _ provider.ProviderWithConfigValidators = (*SamProvider)(nil)
