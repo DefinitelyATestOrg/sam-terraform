@@ -5,8 +5,8 @@ package internal
 import (
 	"context"
 
-	"github.com/DefinitelyATestOrg/sam-node"
-	"github.com/DefinitelyATestOrg/sam-node/option"
+	"github.com/DefinitelyATestOrg/sam-go"
+	"github.com/DefinitelyATestOrg/sam-go/option"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
