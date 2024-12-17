@@ -20,7 +20,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/tidwall/gjson"
 
-	"github.com/stainless-sdks/sam-terraform/internal/customfield"
+	"github.com/DefinitelyATestOrg/terraform-provider-sam/internal/customfield"
 )
 
 func P[T any](v T) *T { return &v }
