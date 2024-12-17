@@ -12,4 +12,5 @@ else
 fi
 
 echo "==> Linking with local directory"
-go mod edit -replace github.com/DefinitelyATestOrg/sam-go="$LOCAL_GO"
+go mod tidy -e
+go mod edit -replace github.com/stainless-sdks/sam-go="$LOCAL_GO"

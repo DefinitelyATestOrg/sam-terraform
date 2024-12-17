@@ -4,6 +4,10 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs
+echo "==> Generating Terraform provider documentation"
+if ! command -v "tfplugindocs" &> /dev/null
+then
+  go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs
+fi
 
 tfplugindocs generate -rendered-provider-name "Sam" -provider-name="sam"
