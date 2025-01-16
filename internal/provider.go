@@ -4,6 +4,7 @@ package internal
 
 import (
 	"context"
+	"os"
 
 	"github.com/DefinitelyATestOrg/sam-go"
 	"github.com/DefinitelyATestOrg/sam-go/option"
@@ -55,8 +56,6 @@ func (p *SamProvider) Schema(ctx context.Context, req provider.SchemaRequest, re
 
 func (p *SamProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
 
-	// TODO(terraform): apiKey := os.Getenv("API_KEY")
-
 	var data SamProviderModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
@@ -65,6 +64,9 @@ func (p *SamProvider) Configure(ctx context.Context, req provider.ConfigureReque
 
 	if !data.BaseURL.IsNull() {
 		opts = append(opts, option.WithBaseURL(data.BaseURL.ValueString()))
+	}
+	if o, ok := os.LookupEnv("API_KEY"); ok {
+		opts = append(opts, option.WithAPIKey(o))
 	}
 	if !data.APIKey.IsNull() {
 		opts = append(opts, option.WithAPIKey(data.APIKey.ValueString()))
